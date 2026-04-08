@@ -65,7 +65,6 @@ if (isset($_GET['error'])) {
         echo "<div class='alert alert-danger mt-3 text-center'>Error al registrar</div>";
     }
 }
-
 if (isset($_POST['registrar'])) {
     $usuario = $_POST['usuario'];
     $password = $_POST['password'];
