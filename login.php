@@ -53,20 +53,30 @@
       }
     ?>
     <?php
-    if (isset($_POST['login'])) {
-        $usuario = $_POST['usuario'];
-        $password = $_POST['password'];
-        $query = $conexion->query("SELECT * FROM cuenta WHERE usuario='$usuario'");
-        $row = $query->fetch_assoc();
-        if ($row && password_verify($password, $row['password'])) {
-            $_SESSION['usuario'] = $usuario;
-            header("Location: listar_libros.php");
-            exit;
-        } else {
-          header("Location: login.php?error=credenciales");
-          exit;
-        }
-    }
+      if (isset($_POST['login'])) {
+          $usuario = $_POST['usuario'];
+          $password = $_POST['password'];
+
+          $query = $conexion->query("
+              SELECT * FROM cuenta 
+              WHERE usuario='$usuario' 
+              AND password = SHA2('$password', 256)
+          ");
+
+          $row = $query->fetch_assoc();
+
+          if ($row) {
+              session_start();
+              $_SESSION['usuario'] = $usuario;
+              $_SESSION['rol_id'] = $row['rol_id'];
+
+              header("Location: listar_libros.php");
+              exit;
+          } else {
+              header("Location: login.php?error=credenciales");
+              exit;
+          }
+      }
     ?>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

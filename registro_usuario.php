@@ -52,19 +52,17 @@ if (isset($_GET['error'])) {
 }
 if (isset($_POST['registrar'])) {
     $usuario = $_POST['usuario'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $password = $_POST['password'];
 
-    $sql = "INSERT INTO cuenta (usuario, password) VALUES ('$usuario', '$password')";
+    $sql = "INSERT INTO cuenta (usuario, password) 
+            VALUES ('$usuario', SHA2('$password', 256))";
+
     try {
         $conexion->query($sql);
         header("Location: login.php?registro=ok");
         exit();
     } catch (mysqli_sql_exception $e) {
-        if ($e->getCode() == 1062) {
-            header("Location: registro_usuario.php?error=duplicado");
-        } else {
-            header("Location: registro_usuario.php?error=general");
-        }
+        header("Location: registro_usuario.php?error=general");
         exit();
     }
 }

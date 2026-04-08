@@ -24,7 +24,11 @@ $resultado = $conexion->query("SELECT * FROM libro");
         <th>Autor</th>
         <th>Publicación</th>
         <th>Género</th>
-        <th>Acciones</th>
+        <?php 
+          if ($_SESSION['rol_id'] > 1) {
+            echo '<th>Acciones</th>';
+          }
+        ?>
       </tr>
     </thead>
     <tbody>
@@ -34,16 +38,27 @@ $resultado = $conexion->query("SELECT * FROM libro");
         <td><?= $fila['autor'] ?></td>
         <td><?= $fila['fecha'] ?></td>
         <td><?= $fila['genero'] ?></td>
-        <td>
-          <a href="editar_libro.php?id=<?= $fila['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
-          <a href="eliminar_libro.php?id=<?= $fila['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este libro?');">Eliminar</a>
-        </td>
+          <?php
+            if ($_SESSION['rol_id'] > 1) {
+                echo '<td>';
+                echo "<a href='editar_libro.php?id=" . $fila['id'] . "' class='btn btn-warning btn-sm'>Editar</a>";
+
+                if ($_SESSION['rol_id'] == 3) {
+                    echo "<a href='eliminar_libro.php?id=" . $fila['id'] . "' class='btn btn-danger btn-sm' onclick=\"return confirm('¿Seguro que deseas eliminar este libro?');\">Eliminar</a>";
+                }
+                echo '</td>'; 
+            }
+          ?>
       </tr>
       <?php endwhile; ?>
     </tbody>
   </table>
 </div>
-<a href="registro.php" class="btn btn-primary mb-3">Agregar libro</a>
+<?php 
+if ($_SESSION['rol_id'] > 1) {
+  echo '<a href="registro.php" class="btn btn-primary mb-3">Agregar libro</a>';
+}
+?>
 <h3 class="mb-4">Gráficos:</h3>
 <a href="grafico.php?type=genero" class="btn btn-primary mb-3">Ordenar por Género</a>
 <a href="grafico.php?type=fecha" class="btn btn-primary mb-3">Ordenar por Año de Publicación</a>

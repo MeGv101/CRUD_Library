@@ -1,5 +1,9 @@
 <?php
   include("fragmentos/return_to_zero.php"); 
+  if ($_SESSION['rol_id'] == 1) {
+      header("Location: listar_libros.php");
+      exit;
+  }
 ?>
 <!DOCTYPE html>
 <html lang="es">
