@@ -27,7 +27,7 @@ if (isset($_POST['rol_id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Biblioteca Virtual</title>
-  <link rel="stylesheet" href="CSS/usuario.css">
+  <link rel="stylesheet" href="CSS/rol.css">
   <link rel="stylesheet" href="CSS/nav.css">
   <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/morph/bootstrap.min.css" rel="stylesheet">
   <script src="JS/return_to_zero.js"></script>
